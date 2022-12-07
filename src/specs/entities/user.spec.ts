@@ -29,12 +29,7 @@ describe('User', () => {
       });
 
       await userRepository.save(user);
-      const [retrievedUser] = await userRepository.find({
-        where: {
-          email: user.email,
-        },
-      });
-      chai.assert.deepEqual(user, retrievedUser);
+      chai.expect(userRepository.hasId(user));
     });
 
     it('should raise error if email is missing', async () => {
@@ -49,6 +44,27 @@ describe('User', () => {
         property: 'email',
         constraints: { isNotEmpty: 'email should not be empty' },
       });
+    });
+
+    it('should raise error if email exist', async () => {
+      const email = faker.internet.email();
+      const user1 = userRepository.create({
+        firstname: faker.name.firstName(),
+        lastname: faker.name.lastName(),
+        email,
+        passwordHash: 'password',
+      });
+
+      await userRepository.save(user1);
+
+      const user2 = userRepository.create({
+        firstname: faker.name.firstName(),
+        lastname: faker.name.lastName(),
+        email: email.toUpperCase(),
+        passwordHash: 'password',
+      });
+
+      await chai.expect(userRepository.save(user2)).to.be.rejected;
     });
   });
 });
