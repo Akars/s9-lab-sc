@@ -1,5 +1,5 @@
 import {
-  Entity, PrimaryGeneratedColumn, Column, Unique,
+  Entity, PrimaryGeneratedColumn, Column, Unique, BeforeUpdate, BeforeInsert,
 } from 'typeorm';
 
 import { IsNotEmpty } from 'class-validator';
@@ -16,7 +16,16 @@ export default class User {
   @Column()
     lastname!: string;
 
-  @Column()
+  @Column({
+    transformer: {
+      from(value: string) {
+        return value.toLowerCase();
+      },
+      to(value: string) {
+        return value.toLowerCase();
+      },
+    },
+  })
   @IsNotEmpty()
     email!: string;
 
