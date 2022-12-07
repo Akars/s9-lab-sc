@@ -1,7 +1,7 @@
 import 'reflect-metadata';
 import 'dotenv/config';
 import { DataSource } from 'typeorm';
-import { UserSubscriber } from './errors/validation-error';
+import { UserSubscriber } from './subscribers/user-subscriber';
 
 const {
   DATABASE_ROLE, DATABASE_HOST, DATABASE_NAME, DATABASE_PWD, DATABASE_PORT,
