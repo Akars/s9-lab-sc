@@ -13,7 +13,8 @@ module.exports = {
     'airbnb-base'
   ],
   rules: {
-    "import/extensions": 'off',
+    'class-methods-use-this': 'off',
+    'import/extensions': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
     'no-undef': 'off',

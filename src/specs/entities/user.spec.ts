@@ -1,10 +1,10 @@
 import * as chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 
-import { QueryFailedError, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { faker } from '@faker-js/faker';
 import User from '../../entities/user';
-import { AppDataSource } from '../../data-source';
+import { AppDataSource } from '../../DataSource';
 
 chai.use(chaiAsPromised);
 
@@ -64,7 +64,12 @@ describe('User', () => {
         passwordHash: 'password',
       });
 
-      await chai.expect(userRepository.save(user2)).to.be.rejected;
+      await chai.expect(userRepository.save(user2)).to.eventually.be.rejected.and.deep.include({
+        target: user2,
+        property: 'email',
+        value: email.toUpperCase(),
+        constraints: { UniqueInColumn: 'email already exists' },
+      });
     });
   });
 });
