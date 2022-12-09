@@ -4,7 +4,7 @@ import {
   ValidatorConstraintInterface, ValidatorConstraint,
 } from 'class-validator';
 import { Container } from 'typedi';
-import { Manager } from './DatasourceManager';
+import { Manager } from './DataSourceManager';
 import User from '../entities/user';
 
 @ValidatorConstraint({ name: 'UniqueInColumn', async: true })
