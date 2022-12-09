@@ -1,8 +1,9 @@
 import {
-  Entity, PrimaryGeneratedColumn, Column, Unique, BeforeUpdate, BeforeInsert,
+  Entity, PrimaryGeneratedColumn, Column, Unique,
 } from 'typeorm';
 
 import { IsNotEmpty } from 'class-validator';
+import { UniqueInColumn } from '../lib/UniqueInColumn';
 
 @Entity()
 @Unique(['email'])
@@ -26,6 +27,7 @@ export default class User {
       },
     },
   })
+  @UniqueInColumn()
   @IsNotEmpty()
     email!: string;
 
