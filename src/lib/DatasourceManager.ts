@@ -4,7 +4,7 @@ import { AppDataSource } from '../DataSource';
 
 @Service()
 class DataSourceInjected {
-  getRepository() {
+  getDataSourceManager() {
     return AppDataSource.manager;
   }
 }
