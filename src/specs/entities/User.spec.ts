@@ -3,7 +3,7 @@ import chaiAsPromised from 'chai-as-promised';
 
 import { Repository } from 'typeorm';
 import { faker } from '@faker-js/faker';
-import User from '../../entities/user';
+import User from '../../entities/User';
 import { AppDataSource } from '../../DataSource';
 
 chai.use(chaiAsPromised);
@@ -48,24 +48,24 @@ describe('User', () => {
 
     it('should raise error if email exist', async () => {
       const email = faker.internet.email();
-      const user1 = userRepository.create({
+      let user = userRepository.create({
         firstname: faker.name.firstName(),
         lastname: faker.name.lastName(),
         email,
         passwordHash: 'password',
       });
 
-      await userRepository.save(user1);
+      await userRepository.save(user);
 
-      const user2 = userRepository.create({
+      user = userRepository.create({
         firstname: faker.name.firstName(),
         lastname: faker.name.lastName(),
         email: email.toUpperCase(),
         passwordHash: 'password',
       });
 
-      await chai.expect(userRepository.save(user2)).to.eventually.be.rejected.and.deep.include({
-        target: user2,
+      await chai.expect(userRepository.save(user)).to.eventually.be.rejected.and.deep.include({
+        target: user,
         property: 'email',
         value: email.toUpperCase(),
         constraints: { UniqueInColumn: 'email already exists' },
