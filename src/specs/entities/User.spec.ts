@@ -3,8 +3,10 @@ import chaiAsPromised from 'chai-as-promised';
 
 import { Repository } from 'typeorm';
 import { faker } from '@faker-js/faker';
+import { ValidationError } from 'class-validator';
 import User from '../../entities/User';
 import { AppDataSource } from '../../DataSource';
+import { SetPasswordDTO } from '../../lib/SetPasswordDTO';
 
 chai.use(chaiAsPromised);
 
@@ -21,23 +23,29 @@ describe('User', () => {
 
   describe('validations', () => {
     it('should create a new User in database', async () => {
+      const password = 'privatepassword';
       const user = userRepository.create({
         firstname: faker.name.firstName(),
         lastname: faker.name.lastName(),
         email: faker.internet.email(),
-        passwordHash: 'password',
       });
+
+      const passwordDTO = new SetPasswordDTO(password, password);
+      await user.setPassword(passwordDTO);
 
       await userRepository.save(user);
       chai.expect(userRepository.hasId(user));
     });
 
     it('should raise error if email is missing', async () => {
+      const password = 'privatepassword';
       const user = userRepository.create({
         firstname: faker.name.firstName(),
         lastname: faker.name.lastName(),
-        passwordHash: 'password',
       });
+
+      const passwordDTO = new SetPasswordDTO(password, password);
+      await user.setPassword(passwordDTO);
 
       await chai.expect(userRepository.save(user)).to.eventually.be.rejected.and.deep.include({
         target: user,
@@ -47,13 +55,16 @@ describe('User', () => {
     });
 
     it('should raise error if email exist', async () => {
+      const password = 'privatepassword';
       const email = faker.internet.email();
       let user = userRepository.create({
         firstname: faker.name.firstName(),
         lastname: faker.name.lastName(),
         email,
-        passwordHash: 'password',
       });
+
+      const passwordDTO = new SetPasswordDTO(password, password);
+      await user.setPassword(passwordDTO);
 
       await userRepository.save(user);
 
@@ -70,6 +81,20 @@ describe('User', () => {
         value: email.toUpperCase(),
         constraints: { UniqueInColumn: 'email already exists' },
       });
+    });
+
+    it('should raise error if password does not match', async () => {
+      const password = 'privatepassword';
+      const user = userRepository.create({
+        firstname: faker.name.firstName(),
+        lastname: faker.name.lastName(),
+        email: faker.internet.email(),
+      });
+
+      const passwordDTO = new SetPasswordDTO(password, 'anotherPassword');
+      await chai.expect(user.setPassword(passwordDTO)).to.eventually
+        .be.rejected
+        .and.be.an.instanceOf(ValidationError);
     });
   });
 });
