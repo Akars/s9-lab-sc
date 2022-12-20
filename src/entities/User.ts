@@ -2,7 +2,9 @@ import {
   Entity, PrimaryGeneratedColumn, Column, Unique,
 } from 'typeorm';
 
-import { IsNotEmpty } from 'class-validator';
+import { IsNotEmpty, ValidationError } from 'class-validator';
+import * as bcrypt from 'bcrypt';
+import { SetPasswordDTO } from '../lib/SetPasswordDTO';
 import { UniqueInColumn } from '../lib/UniqueInColumn';
 
 @Entity()
@@ -33,4 +35,15 @@ export default class User {
 
   @Column()
     passwordHash!: string;
+
+  async setPassword(passwordDTO: SetPasswordDTO) {
+    if (passwordDTO.password !== passwordDTO.passwordConfirmation) {
+      throw new ValidationError();
+    }
+
+    const salt = await bcrypt.genSalt();
+    const hash = await bcrypt.hash(passwordDTO.password, salt);
+
+    this.passwordHash = hash;
+  }
 }
