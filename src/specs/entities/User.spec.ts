@@ -7,6 +7,7 @@ import { ValidationError } from 'class-validator';
 import User from '../../entities/User';
 import { AppDataSource } from '../../DataSource';
 import { SetPasswordDTO } from '../../lib/SetPasswordDTO';
+import { computePasswordEntropy } from '../../lib/PasswordEntropy';
 
 chai.use(chaiAsPromised);
 
@@ -95,6 +96,17 @@ describe('User', () => {
       await chai.expect(user.setPassword(passwordDTO)).to.eventually
         .be.rejected
         .and.be.an.instanceOf(ValidationError);
+    });
+  });
+  describe('Password strength validation', () => {
+    it('should return 18.8 bits for \'test\' as password', () => {
+      chai.expect(computePasswordEntropy('test')).to.be.closeTo(18.8, 0.1);
+    });
+
+    it('should pass if the password has 80 bits of entropy', () => {
+      const password = 'P4sS0rWd.1234@';
+
+      chai.expect(computePasswordEntropy(password)).to.be.greaterThanOrEqual(80);
     });
   });
 });
