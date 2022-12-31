@@ -46,4 +46,8 @@ export default class User {
 
     this.passwordHash = hash;
   }
+
+  async isPasswordValid(password: string) {
+    return bcrypt.compare(password, this.passwordHash);
+  }
 }
