@@ -13,6 +13,7 @@ chai.use(chaiAsPromised);
 
 describe('User', () => {
   let userRepository: Repository<User>;
+  const password = 'privatepassword';
   before(async () => {
     await AppDataSource.initialize();
     userRepository = AppDataSource.getRepository(User);
@@ -24,7 +25,6 @@ describe('User', () => {
 
   describe('validations', () => {
     it('should create a new User in database', async () => {
-      const password = 'privatepassword';
       const user = userRepository.create({
         firstname: faker.name.firstName(),
         lastname: faker.name.lastName(),
@@ -39,7 +39,6 @@ describe('User', () => {
     });
 
     it('should raise error if email is missing', async () => {
-      const password = 'privatepassword';
       const user = userRepository.create({
         firstname: faker.name.firstName(),
         lastname: faker.name.lastName(),
@@ -56,7 +55,6 @@ describe('User', () => {
     });
 
     it('should raise error if email exist', async () => {
-      const password = 'privatepassword';
       const email = faker.internet.email();
       let user = userRepository.create({
         firstname: faker.name.firstName(),
@@ -85,7 +83,6 @@ describe('User', () => {
     });
 
     it('should raise error if password does not match', async () => {
-      const password = 'privatepassword';
       const user = userRepository.create({
         firstname: faker.name.firstName(),
         lastname: faker.name.lastName(),
@@ -97,6 +94,36 @@ describe('User', () => {
         .be.rejected
         .and.be.an.instanceOf(ValidationError);
     });
+
+    it('should pass if the password match the hashed password', async () => {
+      const user = userRepository.create({
+        firstname: faker.name.firstName(),
+        lastname: faker.name.lastName(),
+        email: faker.internet.email(),
+      });
+
+      const passwordDTO = new SetPasswordDTO(password, password);
+      await user.setPassword(passwordDTO);
+
+      await chai.expect(user.isPasswordValid(password)).to
+        .not.be.rejected
+        .and.be.true;
+    });
+
+    it('should raise error if the password does not match the hashed password', async () => {
+      const user = userRepository.create({
+        firstname: faker.name.firstName(),
+        lastname: faker.name.lastName(),
+        email: faker.internet.email(),
+      });
+
+      const passwordDTO = new SetPasswordDTO(password, password);
+      await user.setPassword(passwordDTO);
+
+      await chai.expect(user.isPasswordValid('password')).to
+        .not.be.rejected
+        .and.be.false;
+    });
   });
   describe('Password strength validation', () => {
     it('should return 18.8 bits for \'test\' as password', () => {
@@ -104,9 +131,9 @@ describe('User', () => {
     });
 
     it('should pass if the password has 80 bits of entropy', () => {
-      const password = 'P4sS0rWd.1234@';
+      const securedPassword = 'P4sS0rWd.1234@';
 
-      chai.expect(computePasswordEntropy(password)).to.be.greaterThanOrEqual(80);
+      chai.expect(computePasswordEntropy(securedPassword)).to.be.greaterThanOrEqual(80);
     });
   });
 });
