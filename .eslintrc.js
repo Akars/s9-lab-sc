@@ -10,7 +10,7 @@ module.exports = {
     'eslint:recommended',
     'plugin:@typescript-eslint/recommended',
     'plugin:@typescript-eslint/recommended-requiring-type-checking',
-    'airbnb-base'
+    'airbnb-base',
   ],
   rules: {
     'class-methods-use-this': 'off',
