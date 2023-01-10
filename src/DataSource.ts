@@ -1,20 +1,19 @@
 import 'reflect-metadata';
-import 'dotenv/config';
 import { DataSource } from 'typeorm';
+import {
+  DATABASE_ROLE, DATABASE_HOST, DATABASE_NAME, DATABASE_PWD,
+  DATABASE_PORT, DS_SYNC,
+} from './lib/Dotenv';
 import { UserSubscriber } from './subscribers/UserSubscriber';
-
-const {
-  DATABASE_ROLE, DATABASE_HOST, DATABASE_NAME, DATABASE_PWD, DATABASE_PORT,
-} = process.env;
 
 export const AppDataSource = new DataSource({
   type: 'postgres',
   username: DATABASE_ROLE,
   host: DATABASE_HOST,
   password: DATABASE_PWD,
-  port: parseInt(<string>DATABASE_PORT, 10),
+  port: DATABASE_PORT,
   database: DATABASE_NAME,
   entities: [`${__dirname}/entities/*.{ts,js}`],
-  synchronize: true,
+  synchronize: DS_SYNC,
   subscribers: [UserSubscriber],
 });
