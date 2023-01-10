@@ -1,0 +1,36 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.X
+        
+      - name: set env
+        run: |
+          touch .env
+          echo DATABASE_ROLE=${{ secrets.DATABASE_ROLE }} >> .env
+          echo DATABASE_HOST=${{ secrets.DATABASE_HOST }} >> .env
+          echo DATABASE_NAME=${{ secrets.DATABASE_NAME }} >> .env
+          echo DATABASE_PWD=${{ secrets.DATABASE_PWD }} >> .env
+          echo DATABASE_PORT=${{ secrets.DATABASE_PORT }} >> .env
+
+      - name: start docker containers
+        run: docker-compose up -d --build
+
+      - name: install dependencies
+        run: npm install
+
+      - name: run test
+        run: npm run test
