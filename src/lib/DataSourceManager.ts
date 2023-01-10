@@ -11,7 +11,6 @@ class DataSourceInjected {
 
 @Service()
 export class Manager {
-  // eslint-disable-next-line no-useless-constructor
   constructor(
     // eslint-disable-next-line no-unused-vars
     public injectedResources: DataSourceInjected,

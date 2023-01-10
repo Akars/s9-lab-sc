@@ -6,12 +6,10 @@ import User from '../entities/User';
 
 @EventSubscriber()
 export class UserSubscriber implements EntitySubscriberInterface<User> {
-  // eslint-disable-next-line class-methods-use-this
   listenTo() {
     return User;
   }
 
-  // eslint-disable-next-line class-methods-use-this
   async beforeInsert(event: InsertEvent<User>) {
     const [error] = await validate(event.entity);
     if (error) throw error;

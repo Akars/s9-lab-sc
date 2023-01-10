@@ -20,6 +20,8 @@ module.exports = {
     'no-undef': 'off',
     'import/no-extraneous-dependencies': 'off',
     'import/no-unresolved': 'off',
-    'import/prefer-default-export': 'off'
+    'import/prefer-default-export': 'off',
+    'no-useless-constructor': 'off',
+    'func-names': 'off'
   }
 }

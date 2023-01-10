@@ -23,7 +23,6 @@ export class IsEmailAlreadyExistConstraint implements ValidatorConstraintInterfa
 }
 
 export function UniqueInColumn(validationOptions?: ValidationOptions) {
-  // eslint-disable-next-line func-names
   return function (object: Record<string, any>, propertyName: string) {
     registerDecorator({
       name: 'UniqueInColumn',
