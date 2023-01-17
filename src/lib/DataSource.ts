@@ -13,7 +13,7 @@ export const AppDataSource = new DataSource({
   password: DATABASE_PWD,
   port: DATABASE_PORT,
   database: DATABASE_NAME,
-  entities: [`${__dirname}/entities/*.{ts,js}`],
+  entities: [`${__dirname}/../entities/*.{ts,js}`],
   synchronize: DS_SYNC,
   subscribers: [UserSubscriber],
 });

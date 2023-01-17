@@ -40,6 +40,10 @@ export default class User {
     const salt = await bcrypt.genSalt();
     const hash = await bcrypt.hash(passwordDTO.password, salt);
 
+    if (passwordDTO.password !== passwordDTO.passwordConfirmation) {
+      throw new ValidationError();
+    }
+
     this.passwordHash = hash;
   }
 
