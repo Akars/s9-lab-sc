@@ -1,4 +1,4 @@
-import { server } from '../../../lib/fastify';
+import { server } from '../../../lib/Fastify';
 
 describe('/web-api/users', () => {
   describe('POST #create', () => {
