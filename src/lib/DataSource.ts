@@ -3,8 +3,8 @@ import { DataSource } from 'typeorm';
 import {
   DATABASE_ROLE, DATABASE_HOST, DATABASE_NAME, DATABASE_PWD,
   DATABASE_PORT, DS_SYNC,
-} from './lib/Dotenv';
-import { UserSubscriber } from './subscribers/UserSubscriber';
+} from './Dotenv';
+import { UserSubscriber } from '../subscribers/UserSubscriber';
 
 export const AppDataSource = new DataSource({
   type: 'postgres',

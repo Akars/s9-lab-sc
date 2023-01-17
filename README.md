@@ -1,6 +1,7 @@
 # Questions
 
 ----
+# LAB 3
 
 ## 1
 
@@ -21,3 +22,17 @@ So every validation should be backed up by a constraint to protect against race 
 
 Model validations can serve the security of an application by ensuring that the data being stored in the database is consistent and follows certain rules. For example, a validation that checks for the uniqueness of the email field can prevent malicious users from creating multiple accounts with the same email, which could be used for spamming or phishing attacks.
 One database mechanism that can be leveraged for security hardening in case a validation fails is a database constraint. A database constraint is a rule that is enforced by the database to ensure the integrity and consistency of the data stored in the database.
+
+---------
+# LAB 4
+
+## 1
+
+REST is an architectural style for building webservice. Using consistent naming convention for apis. REST naming is based to CRUD operations on resources corresponding to HTTP verbs (GET, POST, PUT, DELETE). The name of the endpoint can describe what the api is intended to do. The path will indicate the resource that is accessed. 
+
+## 2
+
+POST /web-api/users endpoint will create a resource, in this case it will create an user.
+POST /web-api/sessions endpoint will create a resource, so it will create a new session.
+
+

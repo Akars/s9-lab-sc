@@ -1,0 +1,13 @@
+{
+  "title": "CreateSessionRequestBody",
+  "type": "object",
+  "properties": {
+    "email": "string",
+    "password": "string"
+  },
+  "additionalProperties": false,
+  "required": [
+    "email",
+    "password"
+  ]
+}

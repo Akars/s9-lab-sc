@@ -1,6 +1,6 @@
 // eslint-disable-next-line max-classes-per-file
 import { Service } from 'typedi';
-import { AppDataSource } from '../DataSource';
+import { AppDataSource } from './DataSource';
 
 @Service()
 class DataSourceInjected {

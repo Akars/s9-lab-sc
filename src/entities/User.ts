@@ -37,10 +37,6 @@ export default class User {
     passwordHash!: string;
 
   async setPassword(passwordDTO: SetPasswordDTO) {
-    if (passwordDTO.password !== passwordDTO.passwordConfirmation) {
-      throw new ValidationError();
-    }
-
     const salt = await bcrypt.genSalt();
     const hash = await bcrypt.hash(passwordDTO.password, salt);
 
