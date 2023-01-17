@@ -1,0 +1,29 @@
+{
+  "title": "CreateUserRequestBody",
+  "type": "object",
+  "properties": {
+    "firstname": {
+      "type": "string"
+    },
+    "lastname": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string"
+    },
+    "password": {
+      "type": "string"
+    },
+    "passwordConfirmation": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "firstname",
+    "lastname",
+    "email",
+    "password",
+    "passwordConfirmation"
+  ]
+}

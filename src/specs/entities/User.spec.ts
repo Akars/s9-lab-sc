@@ -5,7 +5,7 @@ import { Repository } from 'typeorm';
 import { faker } from '@faker-js/faker';
 import { ValidationError } from 'class-validator';
 import User from '../../entities/User';
-import { AppDataSource } from '../../DataSource';
+import { AppDataSource } from '../../lib/DataSource';
 import { SetPasswordDTO } from '../../lib/SetPasswordDTO';
 import { computePasswordEntropy } from '../../lib/PasswordEntropy';
 

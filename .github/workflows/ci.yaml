@@ -16,7 +16,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 18.X
-        
+
       - name: set env
         run: |
           touch .env
@@ -25,6 +25,9 @@ jobs:
           echo DATABASE_NAME=${{ secrets.DATABASE_NAME }} >> .env
           echo DATABASE_PWD=${{ secrets.DATABASE_PWD }} >> .env
           echo DATABASE_PORT=${{ secrets.DATABASE_PORT }} >> .env
+          echo FASTIFY_PORT=${{ secrets.FASTIFY_PORT }} >> .env
+          echo FASTIFY_ADDR=${{ secrets.FASTIFY_ADDR }} >> .env
+
 
       - name: start docker containers
         run: docker-compose up -d --build

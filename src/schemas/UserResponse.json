@@ -1,0 +1,17 @@
+{
+  "title": "CreateUserResponseBody",
+  "type": "object",
+  "properties": {
+    "id": "string",
+    "email": "string",
+    "firstname": "string",
+    "lastname": "string"
+  },
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "email",
+    "firstname",
+    "lastname"
+  ]
+}
