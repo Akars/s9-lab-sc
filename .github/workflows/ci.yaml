@@ -27,8 +27,6 @@ jobs:
           echo DATABASE_PORT=${{ secrets.DATABASE_PORT }} >> .env
           echo FASTIFY_PORT=${{ secrets.FASTIFY_PORT }} >> .env
           echo FASTIFY_ADDR=${{ secrets.FASTIFY_ADDR }} >> .env
-
-
       - name: start docker containers
         run: docker-compose up -d --build
 

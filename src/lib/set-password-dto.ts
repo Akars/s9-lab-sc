@@ -1,4 +1,4 @@
-export class SetPasswordDTO {
+export class SetPasswordDto {
   password!: string;
 
   passwordConfirmation!: string;

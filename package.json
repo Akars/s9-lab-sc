@@ -5,6 +5,7 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "rm -fr dist && tsc",
+    "start": "npm run build && node ./dist/index.js",
     "lint": "eslint --fix src",
     "test": "npm run build && NODE_ENV=test mocha --recursive dist/specs --exit --async-stack-traces",
     "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",

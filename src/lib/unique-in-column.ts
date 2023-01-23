@@ -4,14 +4,14 @@ import {
   ValidatorConstraintInterface, ValidatorConstraint,
 } from 'class-validator';
 import { Container } from 'typedi';
-import { Manager } from './DataSourceManager';
-import User from '../entities/User';
+import { Manager } from './data-source-manager';
+import User from '../entities/user';
 
 @ValidatorConstraint({ name: 'UniqueInColumn', async: true })
 export class IsEmailAlreadyExistConstraint implements ValidatorConstraintInterface {
   // eslint-disable-next-line no-unused-vars,@typescript-eslint/no-unused-vars
   async validate(value: any, validationArguments?: ValidationArguments): Promise<boolean> {
-    // Injection of the dependency from DataSourceManager.ts
+    // Injection of the dependency from data-source-manager.ts
     const serviceInstance = Container.get(Manager);
 
     const dataSourceManager = serviceInstance.injectedResources.getDataSourceManager();

@@ -6,8 +6,8 @@
  */
 
 export interface CreateUserResponseBody {
-  id: "string";
-  email: "string";
-  firstname: "string";
-  lastname: "string";
+  id: string;
+  email: string;
+  firstname: string;
+  lastname: string;
 }
