@@ -35,4 +35,27 @@ REST is an architectural style for building webservice. Using consistent naming 
 POST /web-api/users endpoint will create a resource, in this case it will create an user.
 POST /web-api/sessions endpoint will create a resource, so it will create a new session.
 
+## 3
 
+If no json schema for any of body, query and params the server respond: 
+the server will send an error message
+``` json
+{
+    "statusCode": 400,
+    "error": "Bad Request",
+    "message": "body must be object"
+}
+```
+
+If the client submits an unknown property, according to the JSON schema:
+The user is created but the unknown property is not record onto the db
+
+If the client omits a required property, according to the JSON schema:
+It will send an error message to the client with the omitted property
+```json
+{
+    "statusCode": 400,
+    "error": "Bad Request",
+    "message": "body must have required property 'lastname'"
+}
+```
