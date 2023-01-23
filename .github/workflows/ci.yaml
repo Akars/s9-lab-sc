@@ -19,7 +19,7 @@ jobs:
 
       - name: set env
         run: |
-            touch .env
+          touch .env
           echo DATABASE_ROLE=${{ secrets.DATABASE_ROLE }} >> .env
           echo DATABASE_HOST=${{ secrets.DATABASE_HOST }} >> .env
           echo DATABASE_NAME=${{ secrets.DATABASE_NAME }} >> .env
@@ -27,8 +27,6 @@ jobs:
           echo DATABASE_PORT=${{ secrets.DATABASE_PORT }} >> .env
           echo FASTIFY_PORT=${{ secrets.FASTIFY_PORT }} >> .env
           echo FASTIFY_ADDR=${{ secrets.FASTIFY_ADDR }} >> .env
-
-
       - name: start docker containers
         run: docker-compose up -d --build
 
