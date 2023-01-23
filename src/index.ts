@@ -8,4 +8,5 @@ async function run() {
   await server.listen({ port: FASTIFY_PORT, host: FASTIFY_ADDR });
 }
 
+// eslint-disable-next-line no-console
 run().catch(console.error);

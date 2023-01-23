@@ -19,7 +19,7 @@ jobs:
 
       - name: set env
         run: |
-          touch .env
+            touch .env
           echo DATABASE_ROLE=${{ secrets.DATABASE_ROLE }} >> .env
           echo DATABASE_HOST=${{ secrets.DATABASE_HOST }} >> .env
           echo DATABASE_NAME=${{ secrets.DATABASE_NAME }} >> .env
