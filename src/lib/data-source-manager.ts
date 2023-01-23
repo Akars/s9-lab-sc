@@ -1,5 +1,5 @@
 import { Service } from 'typedi';
-import { AppDataSource } from './DataSource';
+import { AppDataSource } from './data-source';
 
 @Service()
 class DataSourceInjected {

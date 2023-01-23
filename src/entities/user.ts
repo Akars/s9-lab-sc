@@ -4,8 +4,8 @@ import {
 
 import { IsNotEmpty, ValidationError } from 'class-validator';
 import * as bcrypt from 'bcrypt';
-import { SetPasswordDTO } from '../lib/SetPasswordDTO';
-import { UniqueInColumn } from '../lib/UniqueInColumn';
+import { SetPasswordDto } from '../lib/set-password-dto';
+import { UniqueInColumn } from '../lib/unique-in-column';
 
 @Entity()
 @Unique(['email'])
@@ -36,7 +36,7 @@ export default class User {
   @Column()
     passwordHash!: string;
 
-  async setPassword(passwordDTO: SetPasswordDTO) {
+  async setPassword(passwordDTO: SetPasswordDto) {
     const salt = await bcrypt.genSalt();
     const hash = await bcrypt.hash(passwordDTO.password, salt);
 

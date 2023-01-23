@@ -2,7 +2,7 @@ import * as chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 
 import { faker } from '@faker-js/faker';
-import { server } from '../../../lib/Fastify';
+import { server } from '../../../lib/fastify';
 
 chai.use(chaiAsPromised);
 

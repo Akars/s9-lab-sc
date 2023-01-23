@@ -3,7 +3,7 @@ import { DataSource } from 'typeorm';
 import {
   DATABASE_ROLE, DATABASE_HOST, DATABASE_NAME, DATABASE_PWD,
   DATABASE_PORT, DS_SYNC,
-} from './Dotenv';
+} from './dotenv';
 import { UserSubscriber } from '../subscribers/UserSubscriber';
 
 export const AppDataSource = new DataSource({

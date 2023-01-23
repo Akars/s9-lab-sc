@@ -4,10 +4,10 @@ import chaiAsPromised from 'chai-as-promised';
 import { Repository } from 'typeorm';
 import { faker } from '@faker-js/faker';
 import { ValidationError } from 'class-validator';
-import User from '../../entities/User';
-import { AppDataSource } from '../../lib/DataSource';
-import { SetPasswordDTO } from '../../lib/SetPasswordDTO';
-import { computePasswordEntropy } from '../../lib/PasswordEntropy';
+import User from '../../entities/user';
+import { AppDataSource } from '../../lib/data-source';
+import { SetPasswordDto } from '../../lib/set-password-dto';
+import { computePasswordEntropy } from '../../lib/password-entropy';
 
 chai.use(chaiAsPromised);
 
@@ -31,7 +31,7 @@ describe('User', () => {
         email: faker.internet.email(),
       });
 
-      const passwordDTO = new SetPasswordDTO(password, password);
+      const passwordDTO = new SetPasswordDto(password, password);
       await user.setPassword(passwordDTO);
 
       await userRepository.save(user);
@@ -44,7 +44,7 @@ describe('User', () => {
         lastname: faker.name.lastName(),
       });
 
-      const passwordDTO = new SetPasswordDTO(password, password);
+      const passwordDTO = new SetPasswordDto(password, password);
       await user.setPassword(passwordDTO);
 
       await chai.expect(userRepository.save(user)).to.eventually.be.rejected.and.deep.include({
@@ -62,7 +62,7 @@ describe('User', () => {
         email,
       });
 
-      const passwordDTO = new SetPasswordDTO(password, password);
+      const passwordDTO = new SetPasswordDto(password, password);
       await user.setPassword(passwordDTO);
 
       await userRepository.save(user);
@@ -89,7 +89,7 @@ describe('User', () => {
         email: faker.internet.email(),
       });
 
-      const passwordDTO = new SetPasswordDTO(password, 'anotherPassword');
+      const passwordDTO = new SetPasswordDto(password, 'anotherPassword');
       await chai.expect(user.setPassword(passwordDTO)).to.eventually
         .be.rejected
         .and.be.an.instanceOf(ValidationError);
@@ -102,7 +102,7 @@ describe('User', () => {
         email: faker.internet.email(),
       });
 
-      const passwordDTO = new SetPasswordDTO(password, password);
+      const passwordDTO = new SetPasswordDto(password, password);
       await user.setPassword(passwordDTO);
 
       await chai.expect(user.isPasswordValid(password)).to
@@ -117,7 +117,7 @@ describe('User', () => {
         email: faker.internet.email(),
       });
 
-      const passwordDTO = new SetPasswordDTO(password, password);
+      const passwordDTO = new SetPasswordDto(password, password);
       await user.setPassword(passwordDTO);
 
       await chai.expect(user.isPasswordValid('password')).to
