@@ -1,6 +1,8 @@
 import fastify, {
   FastifyError, FastifyReply, FastifyRequest, RouteOptions,
 } from 'fastify';
+import { ValidationError } from 'class-validator';
+import { EntityNotFoundError } from 'typeorm';
 import { usersRoutes } from '../routes/web-api/users-routes';
 
 export const assertsResponseSchemaPresenceHook = (routeOptions: RouteOptions) => {
@@ -24,13 +26,22 @@ export const assertsValidationSchemaPresenceHook = (routeOptions: RouteOptions) 
 };
 
 export const errorHandleHook = (error: FastifyError, req: FastifyRequest, res: FastifyReply) => {
-  if (error.message.startsWith(`${'Validation' || 'Response'} schema not found for route`)) {
+  if (error instanceof ValidationError) {
+    res.status(400).send({ error: error.constraints });
+  }
+  if (error instanceof EntityNotFoundError) {
     res.status(400).send({ error: error.message });
   }
-  if (process.env.NODE_ENV === 'production' && (error.statusCode && error.statusCode >= 500)) {
-    res.status(500).send({ error: 'Internal Server Error' });
-  } else {
-    res.status(500).send({ error: error.message });
+
+  switch (true) {
+    case error.message.startsWith('Validation schema not found for route') || error.message.startsWith('Response schema not found for route'):
+      res.status(400).send({ error: error.message });
+      break;
+    case process.env.NODE_ENV === 'production' && (error.statusCode && error.statusCode >= 500):
+      res.status(500).send({ error: 'Internal Server Error' });
+      break;
+    default:
+      res.status(500).send({ error: error.message });
   }
 };
 

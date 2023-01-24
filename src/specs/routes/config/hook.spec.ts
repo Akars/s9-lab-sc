@@ -91,11 +91,11 @@ describe('Web hook', () => {
 
       const response = await serverTest.inject({ url: '/error', method: 'GET' });
 
-      chai.expect(response.statusCode).to.eq(500);
+      chai.expect(response.statusCode).equal(500);
       if (process.env.NODE_ENV === 'production') {
-        chai.expect(response.payload).to.eq('{"error":"Internal Server Error"}');
+        chai.expect(response.payload).equal('{"error":"Internal Server Error"}');
       } else {
-        chai.expect(response.payload).to.eq('{"error":"Should show the error in dev or test"}');
+        chai.expect(response.payload).equal('{"error":"Should show the error in dev or test"}');
       }
     });
   });
