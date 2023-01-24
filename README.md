@@ -51,3 +51,23 @@ It will send an error message to the client with the omitted property
     "message": "body must have required property 'lastname'"
 }
 ```
+## 4
+
+| Criteria                                                                     | Stateful Session (Persisted in Backend) | Stateless Session (JWT)                              |
+|------------------------------------------------------------------------------|-----------------------------------------|------------------------------------------------------|
+| Scalability                                                                  | May require more resources and capacity | Can be easily scaled horizontally                    |
+| Architecture Complexity                                                      | Complex to implement                    | Simpler to implement                                 |
+| Type and Quantity of Information Known by the Client                         | More information is known by the client | Less information is known by the client              |
+| Revocation Strategy                                                          | Easier to revoke                        | More difficult to revoke                             |
+| Impact if a Session Leaks                                                    | More severe                             | Less severe                                          |
+| Common Weaknesses Due to Misconfigurations                                   | Session hijacking, data leakage         | Token tampering, replay attacks                      |
+| Client-side Strategy to Protect and Submit the Token (or Session Identifier) | Cookies, local storage                  | HTTP headers, bearer token                           |
+| Additional Library Requirements                                              | Server-side libraries required          | JSON Web Token library required on client and server |
+
+
+## 5
+There are several solutions that can be implemented to protect the confidentiality of the session identifier stored in a browser's cookie.
+
+- Encryption: We could encrypt the stored cookie. The encryption key should be stored on the server and not the client-side code.
+- Token Rotation: We regularly rotate the session tokens
+- Logout: We implement a logout feature that invalidates the token on the server and client side
