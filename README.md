@@ -37,15 +37,7 @@ POST /web-api/sessions endpoint will create a resource, so it will create a new 
 
 ## 3
 
-If no json schema for any of body, query and params the server respond: 
-the server will send an error message
-``` json
-{
-    "statusCode": 400,
-    "error": "Bad Request",
-    "message": "body must be object"
-}
-```
+If no JSON schema is provided for any of the body, query, and params, Fastify will not perform any validation on the incoming request. The request will be processed as usual and the handler function will receive the request parameters without any validation or modification.
 
 If the client submits an unknown property, according to the JSON schema:
 The user is created but the unknown property is not record onto the db

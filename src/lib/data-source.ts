@@ -4,7 +4,7 @@ import {
   DATABASE_ROLE, DATABASE_HOST, DATABASE_NAME, DATABASE_PWD,
   DATABASE_PORT, DS_SYNC,
 } from './dotenv';
-import { UserSubscriber } from '../subscribers/UserSubscriber';
+import { UserSubscriber } from '../subscribers/user.subscriber';
 
 export const AppDataSource = new DataSource({
   type: 'postgres',

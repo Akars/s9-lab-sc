@@ -9,7 +9,7 @@
     "lint": "eslint --fix src",
     "test": "npm run build && NODE_ENV=test mocha --recursive dist/specs --exit --async-stack-traces",
     "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
-    "compile-schemas": "json2ts -i src/schemas -o src/types"
+    "compile-schemas": "json2ts -i src/schemas -o src/schemas/types"
   },
   "author": "Thomas VEILLARD",
   "license": "ISC",

@@ -1,17 +1,22 @@
 import { FastifyInstance } from 'fastify';
-import BodySchema from '../../schemas/UserRequest.json';
-import { CreateUserRequestBody as BodySchemaInterface } from '../../types/UserRequest';
+import createUserRequestSchema from '../../schemas/json/user-request.json';
+import createUserResponseSchema from '../../schemas/json/user-response.json';
+import { CreateUserRequestBody } from '../../schemas/types/user-request';
+import { CreateUserResponseBody } from '../../schemas/types/user-response';
 import { AppDataSource } from '../../lib/data-source';
 import User from '../../entities/user';
 import { SetPasswordDto } from '../../lib/set-password-dto';
 
 export async function usersRoutes(fastify :FastifyInstance) {
   fastify.post<
-  { Body: BodySchemaInterface }>(
+  { Body: CreateUserRequestBody, Response: CreateUserResponseBody }>(
     '/users',
     {
       schema: {
-        body: BodySchema,
+        body: createUserRequestSchema,
+        response: {
+          201: createUserResponseSchema,
+        },
       },
     },
     async (req, res) => {
@@ -30,7 +35,9 @@ export async function usersRoutes(fastify :FastifyInstance) {
 
       await repo.save(user);
 
-      await res.send().status(200);
+      res.code(201).send({
+        firstname: user.firstname, lastname: user.lastname, id: user.id, email: user.email,
+      });
     },
   );
 }
