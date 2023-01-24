@@ -1,7 +1,11 @@
 import * as chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import fastify, { FastifyInstance } from 'fastify';
-import { assertsResponseSchemaPresenceHook, assertsValidationSchemaPresenceHook } from '../../../lib/fastify';
+import {
+  assertsResponseSchemaPresenceHook,
+  assertsValidationSchemaPresenceHook,
+  errorHandleHook,
+} from '../../../lib/fastify';
 
 chai.use(chaiAsPromised);
 
@@ -31,8 +35,8 @@ describe('Web hook', () => {
       await chai.expect(serverTest).to
         .eventually.be.rejected
         .and.deep.include({
-          code: '500',
-          name: 'Internal Error',
+          statusCode: 500,
+          name: 'Internal Server Error',
           message: 'Response schema not found for route /un-safe',
         });
     });
@@ -62,10 +66,37 @@ describe('Web hook', () => {
       await chai.expect(serverTest).to
         .eventually.be.rejected
         .and.deep.include({
-          code: '500',
-          name: 'Internal Error',
+          statusCode: 500,
+          name: 'Internal Server Error',
           message: 'Validation schema not found for route /un-safe',
         });
+    });
+
+    it(`should fetch the error correctly if statusCode is >= 500 and ${process.env.NODE_ENV} env`, async () => {
+      const errorRoute = async (route: FastifyInstance) => {
+        route.get(
+          '/error',
+          () => {
+            throw {
+              statusCode: 500,
+              message: 'Should show the error in dev or test',
+            };
+          },
+        );
+      };
+
+      const serverTest = fastify()
+        .setErrorHandler(errorHandleHook)
+        .register(errorRoute);
+
+      const response = await serverTest.inject({ url: '/error', method: 'GET' });
+
+      chai.expect(response.statusCode).to.eq(500);
+      if (process.env.NODE_ENV === 'production') {
+        chai.expect(response.payload).to.eq('{"error":"Internal Server Error"}');
+      } else {
+        chai.expect(response.payload).to.eq('{"error":"Should show the error in dev or test"}');
+      }
     });
   });
 });

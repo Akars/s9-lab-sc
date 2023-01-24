@@ -1,44 +1,38 @@
 import fastify, {
-  FastifyError, RouteOptions,
+  FastifyError, FastifyReply, FastifyRequest, RouteOptions,
 } from 'fastify';
 import { usersRoutes } from '../routes/web-api/users-routes';
 
 export const assertsResponseSchemaPresenceHook = (routeOptions: RouteOptions) => {
   if (!routeOptions.schema?.response) {
-    const error : FastifyError = {
-      code: '500',
-      name: 'Internal Error',
+    throw {
+      statusCode: 500,
+      name: 'Internal Server Error',
       message: `Response schema not found for route ${routeOptions.url}`,
     };
-    throw error;
   }
 };
 
 export const assertsValidationSchemaPresenceHook = (routeOptions: RouteOptions) => {
   if (!(routeOptions.schema?.body || routeOptions.schema?.params || routeOptions.schema?.params)) {
-    const error : FastifyError = {
-      code: '500',
-      name: 'Internal Error',
+    throw {
+      statusCode: 500,
+      name: 'Internal Server Error',
       message: `Validation schema not found for route ${routeOptions.url}`,
     };
-    throw error;
   }
 };
 
-/* exercise 7
-  export const errorHandleHook = (error: FastifyError, req: FastifyRequest, res: FastifyReply) => {
-    if (error instanceof ValidationError) {
-      res.status(400).send({
-        code: '400',
-      });
-    }
-    if (error.code && error.message.startsWith('Schema not found for route')) {
-      res.status(400).send({ message: error.message });
-    } else {
-      res.status(500).send({ message: error.message });
-    }
-  };
-*/
+export const errorHandleHook = (error: FastifyError, req: FastifyRequest, res: FastifyReply) => {
+  if (error.message.startsWith(`${'Validation' || 'Response'} schema not found for route`)) {
+    res.status(400).send({ error: error.message });
+  }
+  if (process.env.NODE_ENV === 'production' && (error.statusCode && error.statusCode >= 500)) {
+    res.status(500).send({ error: 'Internal Server Error' });
+  } else {
+    res.status(500).send({ error: error.message });
+  }
+};
 
 export const server = fastify({
   logger: false,
@@ -50,5 +44,5 @@ export const server = fastify({
 })
   .addHook('onRoute', assertsResponseSchemaPresenceHook)
   .addHook('onRoute', assertsValidationSchemaPresenceHook)
-  .register(usersRoutes, { prefix: '/web-api' });
-  // .setErrorHandler(errorHandleHook);
+  .register(usersRoutes, { prefix: '/web-api' })
+  .setErrorHandler(errorHandleHook);
