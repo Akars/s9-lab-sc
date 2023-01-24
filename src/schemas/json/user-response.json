@@ -2,10 +2,18 @@
   "title": "CreateUserResponseBody",
   "type": "object",
   "properties": {
-    "id": "string",
-    "email": "string",
-    "firstname": "string",
-    "lastname": "string"
+    "id": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string"
+    },
+    "firstname": {
+      "type": "string"
+    },
+    "lastname": {
+      "type": "string"
+    }
   },
   "additionalProperties": false,
   "required": [

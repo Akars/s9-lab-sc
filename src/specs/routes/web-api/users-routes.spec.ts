@@ -21,7 +21,11 @@ describe('/web-api/users', () => {
 
       const response = await server.inject({ url: '/web-api/users', method: 'POST', payload: userBody });
 
-      chai.expect(response.statusCode).eq(200);
+      chai.expect(response.statusCode).equal(201);
+      const user = JSON.parse(response.payload);
+      chai.expect(user.lastname).equal(userBody.lastname);
+      chai.expect(user.firstname).equal(userBody.firstname);
+      chai.expect(user.email).equal(userBody.email);
     });
   });
 });
