@@ -14,7 +14,7 @@ export class IsEmailAlreadyExistConstraint implements ValidatorConstraintInterfa
     // Injection of the dependency from data-source-manager.ts
     const serviceInstance = Container.get(Manager);
 
-    const dataSourceManager = serviceInstance.injectedResources.getDataSourceManager();
+    const dataSourceManager = await serviceInstance.injectedResources.getDataSourceManager();
 
     return dataSourceManager
       .find(User, { where: { email: value as string } })

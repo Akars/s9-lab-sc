@@ -5,7 +5,7 @@ import { Repository } from 'typeorm';
 import { faker } from '@faker-js/faker';
 import { ValidationError } from 'class-validator';
 import User from '../../entities/user';
-import { AppDataSource } from '../../lib/data-source';
+import { getAppDataSource } from '../../lib/data-source';
 import { SetPasswordDto } from '../../lib/set-password-dto';
 import { computePasswordEntropy } from '../../lib/password-entropy';
 
@@ -15,8 +15,7 @@ describe('User', () => {
   let userRepository: Repository<User>;
   const password = 'privatepassword';
   before(async () => {
-    await AppDataSource.initialize();
-    userRepository = AppDataSource.getRepository(User);
+    userRepository = (await getAppDataSource()).getRepository(User);
   });
 
   beforeEach(async () => {

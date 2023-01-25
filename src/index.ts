@@ -1,10 +1,10 @@
 import 'reflect-metadata';
 import { FASTIFY_ADDR, FASTIFY_PORT } from './lib/dotenv';
 import { server } from './lib/fastify';
-import { AppDataSource } from './lib/data-source';
+import { getAppDataSource } from './lib/data-source';
 
 async function run() {
-  await AppDataSource.initialize();
+  await getAppDataSource();
   await server.listen({ port: FASTIFY_PORT, host: FASTIFY_ADDR });
 }
 

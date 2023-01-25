@@ -1,10 +1,10 @@
 import { Service } from 'typedi';
-import { AppDataSource } from './data-source';
+import { getAppDataSource } from './data-source';
 
 @Service()
 class DataSourceInjected {
-  getDataSourceManager() {
-    return AppDataSource.manager;
+  async getDataSourceManager() {
+    return (await getAppDataSource()).manager;
   }
 }
 

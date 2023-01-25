@@ -2,12 +2,24 @@ import * as chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 
 import { faker } from '@faker-js/faker';
+import { DataSource, Repository } from 'typeorm';
 import { server } from '../../../lib/fastify';
+import { getAppDataSource } from '../../../lib/data-source';
+import User from '../../../entities/user';
 
 chai.use(chaiAsPromised);
 
 describe('/web-api/users', () => {
+  let datasource: DataSource;
   const password = 'privatepassword';
+
+  before(async () => {
+    datasource = await getAppDataSource();
+  });
+
+  beforeEach(async () => {
+    await datasource.getRepository(User).clear();
+  });
 
   describe('POST #create', () => {
     it('should register the user', async () => {

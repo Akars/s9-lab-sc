@@ -1,0 +1,13 @@
+{
+  "title": "CreateSessionResponseBody",
+  "type": "object",
+  "properties": {
+    "token": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "token"
+  ]
+}

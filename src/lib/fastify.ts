@@ -4,6 +4,7 @@ import fastify, {
 import { ValidationError } from 'class-validator';
 import { EntityNotFoundError } from 'typeorm';
 import { usersRoutes } from '../routes/web-api/users-routes';
+import { sessionsRoutes } from '../routes/web-api/sessions-routes';
 
 export const assertsResponseSchemaPresenceHook = (routeOptions: RouteOptions) => {
   if (!routeOptions.schema?.response) {
@@ -56,4 +57,5 @@ export const server = fastify({
   .addHook('onRoute', assertsResponseSchemaPresenceHook)
   .addHook('onRoute', assertsValidationSchemaPresenceHook)
   .register(usersRoutes, { prefix: '/web-api' })
+  .register(sessionsRoutes, { prefix: '/web-api' })
   .setErrorHandler(errorHandleHook);
