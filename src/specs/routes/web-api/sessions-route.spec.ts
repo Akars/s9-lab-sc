@@ -27,7 +27,13 @@ describe('/web-api/sessions', () => {
 
   describe('POST #create', () => {
     it('should create a session', async () => {
-      const sessionRepository = datasource.getRepository(Session);
+      const session = datasource.getRepository(Session).create();
+      session.user = user;
+      const response = await datasource
+        .getRepository(Session)
+        .save(session);
+      chai.expect(response.token.length).to.equal(64);
+      chai.expect(response.user).to.equal(user);
     });
     it('should create a session after lowering email');
     it('should reject with 404 if email not found');
