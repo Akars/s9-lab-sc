@@ -5,8 +5,8 @@ import {
   DATABASE_PORT, DS_SYNC,
 } from './dotenv';
 import { UserSubscriber } from '../subscribers/user.subscriber';
-import User from '../entities/user';
-import Session from '../entities/session';
+import { User } from '../entities/user';
+import { Session } from '../entities/session';
 
 let appDataSource: DataSource | null = null;
 const initializeDataSource = () => {

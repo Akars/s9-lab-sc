@@ -6,11 +6,11 @@ import { IsNotEmpty, ValidationError } from 'class-validator';
 import * as bcrypt from 'bcrypt';
 import { SetPasswordDto } from '../lib/set-password-dto';
 import { UniqueInColumn } from '../lib/unique-in-column';
-import Session from './session';
+import { Session } from './session';
 
 @Entity()
 @Unique(['email'])
-export default class User {
+export class User {
   @PrimaryGeneratedColumn()
     id!: number;
 

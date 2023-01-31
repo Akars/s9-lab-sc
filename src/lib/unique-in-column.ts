@@ -5,7 +5,7 @@ import {
 } from 'class-validator';
 import { Container } from 'typedi';
 import { Manager } from './data-source-manager';
-import User from '../entities/user';
+import { User } from '../entities/user';
 
 @ValidatorConstraint({ name: 'UniqueInColumn', async: true })
 export class IsEmailAlreadyExistConstraint implements ValidatorConstraintInterface {

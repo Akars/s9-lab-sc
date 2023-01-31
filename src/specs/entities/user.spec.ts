@@ -4,7 +4,7 @@ import chaiAsPromised from 'chai-as-promised';
 import { Repository } from 'typeorm';
 import { faker } from '@faker-js/faker';
 import { ValidationError } from 'class-validator';
-import User from '../../entities/user';
+import { User } from '../../entities/user';
 import { getAppDataSource } from '../../lib/data-source';
 import { SetPasswordDto } from '../../lib/set-password-dto';
 import { computePasswordEntropy } from '../../lib/password-entropy';

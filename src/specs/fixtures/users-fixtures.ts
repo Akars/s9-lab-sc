@@ -1,6 +1,6 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { faker } from '@faker-js/faker';
-import User from '../../entities/user';
+import { User } from '../../entities/user';
 import { getAppDataSource } from '../../lib/data-source';
 
 type UserFixtureOptions = Partial<Pick<User, 'firstname' | 'lastname' | 'email'>>;

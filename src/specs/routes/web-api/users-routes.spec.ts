@@ -2,10 +2,10 @@ import * as chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 
 import { faker } from '@faker-js/faker';
-import { DataSource, Repository } from 'typeorm';
+import { DataSource } from 'typeorm';
 import { server } from '../../../lib/fastify';
 import { getAppDataSource } from '../../../lib/data-source';
-import User from '../../../entities/user';
+import { User } from '../../../entities/user';
 
 chai.use(chaiAsPromised);
 

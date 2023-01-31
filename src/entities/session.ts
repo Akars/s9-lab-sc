@@ -4,25 +4,23 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   ManyToOne,
-  JoinColumn,
   BeforeInsert,
 } from 'typeorm';
 import * as crypto from 'crypto';
-import User from './user';
+import { User } from './user';
 
 @Entity()
-export default class Session {
+export class Session {
   @PrimaryGeneratedColumn()
     id!: number;
 
-  @Column({ length: 48, unique: true })
+  @Column({ length: 64, unique: true })
     token!: string;
 
   @ManyToOne(() => User, (user) => user.id, {
     onDelete: 'CASCADE',
     createForeignKeyConstraints: false,
   })
-  @JoinColumn({ name: 'id' })
     user!: User;
 
   @CreateDateColumn()

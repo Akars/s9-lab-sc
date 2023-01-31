@@ -2,11 +2,11 @@ import * as chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 
 import { DataSource } from 'typeorm';
-import { Session } from 'inspector';
 import { getAppDataSource } from '../../../lib/data-source';
-import User from '../../../entities/user';
+import { User } from '../../../entities/user';
 import { createUserFixture } from '../../fixtures/users-fixtures';
-import { createSessionFixture } from '../../fixtures/sessions-fixtures';
+import { Session } from '../../../entities/session';
+import { server } from '../../../lib/fastify';
 
 chai.use(chaiAsPromised);
 
@@ -27,16 +27,37 @@ describe('/web-api/sessions', () => {
 
   describe('POST #create', () => {
     it('should create a session', async () => {
-      const session = datasource.getRepository(Session).create();
-      session.user = user;
-      const response = await datasource
-        .getRepository(Session)
-        .save(session);
-      chai.expect(response.token.length).to.equal(64);
-      chai.expect(response.user).to.equal(user);
+      const credentials = {
+        email: user.email,
+        password: 'changethat',
+      };
+      const response = await server.inject({ url: '/web-api/sessions', method: 'POST', payload: credentials });
+
+      chai.expect(response.statusCode).to.be.equal(201);
     });
-    it('should create a session after lowering email');
-    it('should reject with 404 if email not found');
-    it('should reject with 404 if password does not match');
+
+    it('should create a session after lowering email', async () => {
+
+    });
+
+    it('should reject with 404 if email not found', async () => {
+      const credentials = {
+        email: 'notfound@email.fr',
+        password: 'changethat',
+      };
+      const response = await server.inject({ url: '/web-api/sessions', method: 'POST', payload: credentials });
+
+      chai.expect(response.statusCode).to.be.equal(404);
+    });
+
+    it('should reject with 404 if password does not match', async () => {
+      const credentials = {
+        email: user.email,
+        password: 'wrongpassword',
+      };
+      const response = await server.inject({ url: '/web-api/sessions', method: 'POST', payload: credentials });
+
+      chai.expect(response.statusCode).to.be.equal(404);
+    });
   });
 });

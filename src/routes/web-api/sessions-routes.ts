@@ -4,8 +4,8 @@ import createSessionResponseSchema from '../../schemas/json/session-response.jso
 import { CreateSessionRequestBody } from '../../schemas/types/session-request';
 import { CreateSessionResponseBody } from '../../schemas/types/session-response';
 import { getAppDataSource } from '../../lib/data-source';
-import User from '../../entities/user';
-import Session from '../../entities/session';
+import { User } from '../../entities/user';
+import { Session } from '../../entities/session';
 
 export async function sessionsRoutes(fastify :FastifyInstance) {
   fastify.post<
@@ -15,7 +15,7 @@ export async function sessionsRoutes(fastify :FastifyInstance) {
       schema: {
         body: createSessionRequestSchema,
         response: {
-          200: createSessionResponseSchema,
+          201: createSessionResponseSchema,
         },
       },
     },
@@ -32,11 +32,11 @@ export async function sessionsRoutes(fastify :FastifyInstance) {
       const user = await userRepository.findOneBy({ email });
 
       if (!user) {
-        return res.status(401).send({ message: 'Invalid email or password' });
+        return res.status(404).send({ message: 'Email not found' });
       }
 
       if (!(await user.isPasswordValid(password))) {
-        return res.status(401).send({ message: 'Invalid email or password' });
+        return res.status(404).send({ message: 'Invalid password' });
       }
 
       // create a new session
@@ -47,7 +47,7 @@ export async function sessionsRoutes(fastify :FastifyInstance) {
       await sessionRepository.save(session);
 
       // return the session token
-      return res.code(200).send({ token: session.token });
+      return res.code(201).send({ token: session.token });
     },
   );
 }

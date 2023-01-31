@@ -1,5 +1,5 @@
-import Session from '../../entities/session';
-import User from '../../entities/user';
+import { Session } from '../../entities/session';
+import { User } from '../../entities/user';
 import { buildUserFixture } from './users-fixtures';
 import { getAppDataSource } from '../../lib/data-source';
 
