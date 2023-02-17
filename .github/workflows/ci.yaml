@@ -2,11 +2,25 @@ name: CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, development ]
   pull_request:
-    branches: [ main ]
+    branches: [ main, development ]
 
 jobs:
+  lint:
+    runs-on: ubuntu-latest
+    container:
+      image: node:latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Launch eslint
+        run: npm run lint
   tests:
     runs-on: ubuntu-latest
 

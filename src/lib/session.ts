@@ -29,8 +29,10 @@ export async function loadSession(reply: FastifyReply, request: FastifyRequest) 
   const token = request.unsignCookie(request.cookies.token);
   if (!token.valid) reply.status(401).send({ message: 'Session is not valid' });
 
+  if (!token.value) return;
+
   request.session = await (await getAppDataSource()).getRepository(Session).findOneOrFail({
-    where: { token: token.value! },
+    where: { token: token.value },
     relations: { user: true },
   });
 
