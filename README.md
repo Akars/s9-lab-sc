@@ -1,5 +1,7 @@
 # Questions
 
+[![CodeFactor](https://www.codefactor.io/repository/github/akars/s9-lab-sc/badge)](https://www.codefactor.io/repository/github/akars/s9-lab-sc)
+
 ----
 # LAB 3
 
