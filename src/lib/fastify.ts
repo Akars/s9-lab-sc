@@ -3,6 +3,7 @@ import fastify, {
 } from 'fastify';
 import { ValidationError } from 'class-validator';
 import { EntityNotFoundError } from 'typeorm';
+import cookie, { FastifyCookieOptions } from '@fastify/cookie';
 import { usersRoutes } from '../routes/web-api/users-routes';
 import { sessionsRoutes } from '../routes/web-api/sessions-routes';
 
@@ -56,6 +57,15 @@ export const server = fastify({
 })
   .addHook('onRoute', assertsResponseSchemaPresenceHook)
   .addHook('onRoute', assertsValidationSchemaPresenceHook)
+  .register(cookie, {
+    secret: 'test',
+    parseOptions: {
+      signed: true,
+      maxAge: 1000 * 60 * 60 * 24 * 2,
+    },
+  } as FastifyCookieOptions)
+  .decorateRequest('session', null)
+  .decorateRequest('user', null)
   .register(usersRoutes, { prefix: '/web-api' })
   .register(sessionsRoutes, { prefix: '/web-api' })
   .setErrorHandler(errorHandleHook);
