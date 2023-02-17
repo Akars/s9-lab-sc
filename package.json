@@ -38,7 +38,7 @@
     "class-validator": "^0.14.0",
     "common-js": "^0.3.8",
     "dotenv": "^16.0.3",
-    "fastify": "^4.11.0",
+    "fastify": "^4.13.0",
     "pg": "^8.8.0",
     "reflect-metadata": "^0.1.13",
     "typedi": "^0.10.0",
