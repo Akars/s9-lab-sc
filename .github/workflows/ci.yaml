@@ -7,7 +7,7 @@ on:
     branches: [ main, development ]
 
 jobs:
-  lint:
+  analysis:
     runs-on: ubuntu-latest
     container:
       image: node:latest
